@@ -134,6 +134,13 @@ class XmlV22(XmlAbstract):
         views = self.bs_xml.find('views').find_all('view')
         for view in views:
             view_name = view.find('name').string
+            zone_dict[view_name] = {}
+            for resstat in view.findAll('resstat'):
+              resstat_name = resstat.find('name')
+              resstat_value = resstat.find('counter')
+              zone_dict[view_name][resstat_name.string] = {}
+              zone_dict[view_name][resstat_name.string] = int(resstat_value.string)
+
             for zone in view.findAll('zone'):
                 zone_name = zone.find('name').string.split('/',1)[0]
                 zone_class = zone.find('rdataclass').string
